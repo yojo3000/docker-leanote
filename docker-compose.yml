@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  leanote:
+    container_name: leanote
+    image: yojo3000/leanote
+    ports:
+        - "9000:9000"
+    restart: always
+    volumes:
+      - "/home/yojo3000/docker_volume/leanote/:/root/gopackage/src/github.com/leanote/leanote"
+    #depends_on: [mongodb]
+    command: revel run github.com/leanote/leanote
+    networks:
+      - "default"
+
+networks:
+  default:
+    external:
+      name: my_bridge_network
