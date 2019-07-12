@@ -17,11 +17,6 @@ RUN apt update
 RUN apt install mongodb-org-shell iputils-ping dnsutils net-tools -y
 RUN apt install mongodb-org-tools -y
 
-# init database to mongodb
-# mongorestore -h mongodb -d leanote /root/gopackage/src/github.com/leanote/leanote/mongodb_backup/leanote_install_data/
-# mongo mongodb:27017
-# show dbs
-
 # golang project path
 RUN mkdir /root/gopackage
 
@@ -38,4 +33,8 @@ RUN go install github.com/revel/cmd/revel
 ENV PATH="$PATH:$GOPATH/bin"
 RUN sed -i 's/db.host=127.0.0.1/db.host=mongodb/g' $GOPATH/src/github.com/leanote/leanote/conf/app.conf
 RUN sed -i 's/localhost:9000/192.168.168.8:9000/g' $GOPATH/src/github.com/leanote/leanote/conf/app.conf
+
+# init database to mongodb
+RUN mongorestore -h mongodb -d leanote /root/gopackage/src/github.com/leanote/leanote/mongodb_backup/leanote_install_data/
+RUN mongo mongodb:27017
 
